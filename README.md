@@ -1,8 +1,9 @@
 # Microsoft Purview Suite licensing, explained
 
-A click-through, source-linked explainer of Microsoft Purview Suite licensing, built from public Microsoft documentation.
+A source-linked explainer of Microsoft Purview Suite licensing, built from public Microsoft documentation.
 
-**Open the presentation:** https://ibranibeny.github.io/purview-suite-licensing-explained/
+- **Read online:** https://ibranibeny.github.io/purview-suite-licensing-explained/
+- **Present as slides:** https://ibranibeny.github.io/purview-suite-licensing-explained/slides/
 
 It answers three questions:
 
@@ -12,12 +13,19 @@ It answers three questions:
 
 Every claim carries a numbered citation that links to its Microsoft source. Last verified: **5 November 2026**.
 
-## Using the presentation
+## What's in the repository
 
-- Click, press → / Space, or swipe to advance; ← goes back. Some slides build in steps.
-- **Contents** jumps to any slide; **Sources** lists every reference; a citation number takes you to its source.
-- **Scroll view** (or add `?view=doc` to the address) reads well on phones.
-- **Print / PDF** prints one slide per page.
+| Path | What it is |
+| --- | --- |
+| `index.html` | The article: overview, comparison tables, charts, FAQ and numbered sources |
+| `slides/index.html` | The same content as a 21-slide click-through presentation |
+
+Both are single, self-contained HTML files with no external dependencies.
+
+## Using the pages
+
+- **Article:** the contents sidebar follows your position; select a citation number to jump to its source, then use *Back to where you were*.
+- **Slides:** click, press → / Space, or swipe to advance; ← goes back. Use *Contents* to jump, *Scroll view* on phones, and *Print / PDF* for one slide per page.
 
 ## Sources
 

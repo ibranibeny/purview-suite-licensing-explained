@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft Purview Suite licensing, explained</title>
+<meta name="description" content="A source-linked, click-through explainer of Microsoft Purview Suite licensing: licensed vs. not licensed, what works without it, and what happens when only some users are licensed.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Microsoft Purview Suite licensing, explained">
+<meta property="og:description" content="A source-linked, click-through explainer of Microsoft Purview Suite licensing: licensed vs. not licensed, what works without it, and what happens when only some users are licensed.">
+<meta property="og:url" content="https://ibranibeny.github.io/purview-suite-licensing-explained/slides/">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABbUlEQVR4nO2bwQ3CMAxFQ8WNBWAVWKYcmYgjLAOrwAKc4WQU2qS4jqXfxH4nBCT6/8euXKkNwbHNSrJo29/e2kK0eF4Pszyx/7xk0zk4YXScjWo0HwJP92RCtRpPkauGbAW0ZD6EvJ9kAK2ZJ1K+WNeAlhkF0OrpE0N/3dSPrRL79BZAC0DzDcBK+RPk1ysALQDNWmOTx2WvsY2I3fFetL4oAKTxoQZpEOZbQBzAEk4/RqrHKwAtAI0HgBaAxgNAC0AjDqB0AtPGByEhRaMwpW72XkBLBBLzLeABoAWgMR+AykXw3G80thFxur6K1hcFgDQ+1CANwnwLiANYwunHSPV4BaAFoPEA0ALQeABoAWjEAZROYNr4ICSkaBSm1M3eC2iJQGK+BTwAtAA0HgB9mPumRe2QX68AtAA0PwFYaYPY56gCWg9h6M9bIPVlq1WQ8pWtgNZCyPlhmaz5Ufp/B8m6BtRaDRzd5t8dNs8H/6RrxDu6mQ4AAAAASUVORK5CYII=">
+<style>
+:root{--title:#243A5E;--body:#3A4654;--sub:#5C6773;--cap:#6E7883;--blue:#1860C5;--tint:#EAF1FB;--grey:#F3F5F7;--hair:#D9E1E8;--base:#8A99A8;--neut:#B4C3D1;--e3:#E6ECF2;--cell:#AFC0D0;--slate:#5B7186;--bg:#EEF2F6;--hl:#FFF1C2;--font:"Segoe UI","Segoe UI Web (West European)",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);color:var(--body);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow:hidden}
+h1,h2,h3,h4,p,ul,ol,dl,dd,dt,blockquote,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+a{color:var(--blue)}
+button{font:inherit;color:inherit;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- chrome ---------- */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:var(--hair);z-index:20}
+.progress span{display:block;height:100%;width:0;background:var(--blue);transition:width .45s ease}
+.viewport{position:fixed;left:0;right:0;top:3px;bottom:56px;overflow:hidden}
+.stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform:translate(-50%,-50%) scale(var(--s,1));transform-origin:50% 50%}
+.toolbar{position:fixed;left:0;right:0;bottom:0;height:56px;background:#fff;border-top:1px solid var(--hair);display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 16px;z-index:30}
+.tb-l{display:flex;flex-direction:column;min-width:0;flex:1;font-size:12.5px;line-height:1.35}
+.tb-l b{color:var(--title);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-l span{color:var(--cap);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-c{display:flex;align-items:center;gap:10px;flex:none}
+.tb-r{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:1}
+.btn{border:1px solid var(--hair);background:#fff;border-radius:8px;padding:8px 12px;font-size:13px;color:var(--title);line-height:1;white-space:nowrap}
+.btn:hover{background:var(--tint);border-color:#C5D6EE}
+a.btn{display:inline-block;text-decoration:none}
+.nav{width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);background:#fff;display:inline-flex;align-items:center;justify-content:center;color:var(--title);padding:0}
+.nav svg{width:18px;height:18px}
+.nav:hover{background:var(--tint)}
+.nav:disabled{opacity:.35;cursor:default;background:#fff}
+#next.more{background:var(--blue);border-color:var(--blue);color:#fff;animation:pulse 1.8s ease-in-out infinite}
+#count{font-size:13px;color:var(--sub);min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(24,96,197,.35)}50%{box-shadow:0 0 0 7px rgba(24,96,197,0)}}
+@media (max-width:1180px){.tb-l span{display:none}}
+@media (max-width:980px){.tb-l{display:none}.tb-r{flex:none}}
+
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;background:#fff;border-radius:14px;box-shadow:0 18px 50px rgba(36,58,94,.12),0 2px 8px rgba(36,58,94,.06);display:flex;flex-direction:column;padding:44px 64px 16px;overflow:hidden;opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1),visibility 0s linear .55s}
+.slide.past{transform:translateX(-30px)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1),visibility 0s}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.hd h2{font-size:34px;line-height:1.15;font-weight:700;color:var(--title);letter-spacing:-.01em;margin-top:6px}
+.lede{font-size:18px;line-height:1.4;color:var(--sub);margin-top:8px}
+.bd{flex:1;min-height:0;margin-top:22px;position:relative}
+.sf{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-top:1px solid var(--hair);padding-top:9px;margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--cap)}
+.sf a{color:var(--sub);text-decoration:none;border-bottom:1px solid var(--hair)}
+.sf a:hover{color:var(--blue);border-color:var(--blue)}
+.sf .lb{font-weight:700;color:var(--sub);margin-right:4px}
+.sf .sep{margin:0 7px;color:var(--neut)}
+.pn{white-space:nowrap;font-variant-numeric:tabular-nums}
+.cites{font-size:.6em;line-height:0;vertical-align:super;color:var(--blue);font-weight:600;margin-left:2px;white-space:nowrap}
+.cite{text-decoration:none;padding:0 1px}
+.cite:hover{text-decoration:underline}
+
+/* ---------- reusable blocks ---------- */
+.cols{display:grid;grid-template-columns:var(--c,1fr 1fr);gap:24px;align-items:start}
+.card{background:var(--grey);border-radius:12px;padding:18px 22px}
+.card.tint{background:var(--tint)}
+.card h3{font-size:19px;font-weight:700;color:var(--title)}
+.card.tint h3{color:var(--blue)}
+.items{display:flex;flex-direction:column;gap:11px;margin-top:12px}
+.it h4{font-size:16px;font-weight:700;color:var(--title);line-height:1.3}
+.it p{font-size:14px;color:var(--sub);line-height:1.4;margin-top:1px}
+.side{background:var(--tint);border-radius:12px;padding:16px 20px}
+.side .items{gap:14px;margin-top:10px}
+.side .it h4{font-size:15.5px}
+.side .it p{font-size:13.5px;color:var(--body)}
+.side .tag{display:inline-block;font-size:11.5px;color:var(--sub);background:#fff;border-radius:999px;padding:2px 9px;margin-top:6px}
+.lead{font-size:20px;line-height:1.45;color:var(--body);margin-top:8px}
+.note{font-size:13.5px;color:var(--sub);line-height:1.45}
+.ticks li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.45;color:var(--body);margin-top:8px}
+.ticks li::before{content:"";position:absolute;left:2px;top:.56em;width:8px;height:8px;border-radius:2px;background:var(--blue)}
+.kbd{display:inline-block;border:1px solid var(--hair);border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:12.5px;color:var(--title);background:#fff;margin:0 2px;line-height:1.5}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto}
+.t{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;line-height:1.35}
+.t thead th{background:var(--blue);color:#fff;text-align:start;font-weight:700;padding:8px 12px}
+.t thead th:first-child{border-top-left-radius:8px}
+.t thead th:last-child{border-top-right-radius:8px}
+.t td,.t tbody th{padding:6px 12px;border-bottom:1px solid var(--hair);vertical-align:middle;color:var(--body);text-align:start;font-weight:400}
+.t tbody th{font-weight:600;color:var(--title)}
+.t tbody tr:nth-child(even) td,.t tbody tr:nth-child(even) th{background:#F6F9FC}
+.y{color:var(--blue);font-weight:700;margin-right:6px}
+.n{color:var(--slate);font-weight:700;margin-right:6px}
+.cap{font-size:13px;color:var(--sub);margin-top:10px}
+
+/* ---------- motion ---------- */
+.f{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.f.drop{transform:translateY(-34px) scale(.98)}
+.f.on{opacity:1;transform:none}
+[data-fout]{transition:opacity .3s ease,transform .3s ease}
+.off{opacity:0!important;transform:translateY(-6px)!important;pointer-events:none}
+.fg .st{opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0)*85ms)}
+.fg.on .st{opacity:1;transform:none}
+.slide.active .a{animation:fadeUp .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--d,0)*90ms + 120ms)}
+.slide.active .t tbody tr{animation:fadeUp .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--r,0)*55ms + 180ms)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- section and cover slides ---------- */
+.slide.sec{flex-direction:row;padding:0}
+.sec .l{flex:0 0 64%;display:flex;flex-direction:column;padding:56px 56px 16px 64px;min-width:0}
+.sec .grow{flex:1}
+.sec .panel{flex:1;position:relative;overflow:hidden;background:radial-gradient(120% 70% at 15% 8%,#D6E8FF 0%,rgba(214,232,255,0) 62%),radial-gradient(90% 60% at 98% 38%,#CDEFE4 0%,rgba(205,239,228,0) 62%),radial-gradient(110% 70% at 40% 106%,#EAF4CF 0%,rgba(234,244,207,0) 66%),#F4F8FD}
+.sec .panel::after{content:"";position:absolute;inset:-25%;background:radial-gradient(38% 28% at 30% 30%,rgba(255,255,255,.7),rgba(255,255,255,0) 70%);animation:drift 16s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(-5%,-4%)}to{transform:translate(6%,5%)}}
+.panel .num{position:absolute;right:26px;bottom:4px;font-size:230px;font-weight:800;line-height:1;color:rgba(24,96,197,.13);letter-spacing:-.05em}
+.panel .msg{position:absolute;left:36px;right:36px;top:50%;transform:translateY(-50%);font-size:34px;line-height:1.2;font-weight:700;color:var(--title);z-index:1}
+.panel .msg span{display:block;font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.sec h2.q{font-size:42px;line-height:1.12;font-weight:700;color:var(--title);margin-top:10px;letter-spacing:-.015em}
+.ans{position:relative;margin-top:30px;min-height:210px}
+.ans .lbl{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--title)}
+.ans .big{font-size:21px;line-height:1.5;color:var(--body);margin-top:10px}
+.hint{position:absolute;top:0;left:0;display:inline-flex;align-items:center;gap:8px;font-size:15px;color:var(--sub);border:1px dashed var(--neut);border-radius:999px;padding:8px 16px}
+.cover .l{flex-basis:66%}
+.cover h1{font-size:52px;line-height:1.06;font-weight:700;color:var(--title);letter-spacing:-.02em;margin-top:16px}
+.cover .sub{font-size:28px;color:var(--body);margin-top:8px}
+.cover .intro{font-size:18px;color:var(--sub);line-height:1.5;margin-top:24px;max-width:640px}
+.cover .qs{margin-top:26px;display:flex;flex-direction:column;gap:9px}
+.cover .qs li{font-size:16px;color:var(--title);font-weight:600}
+.cover .qs b{color:var(--blue);margin-right:10px;font-variant-numeric:tabular-nums}
+.cover .start{margin-top:26px;font-size:14px;color:var(--sub)}
+.layers{position:absolute;left:50%;top:50%;width:290px;transform:translate(-50%,-50%);animation:float 7s ease-in-out infinite;z-index:1}
+.layer{border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;box-shadow:0 14px 30px rgba(36,58,94,.12)}
+.layer b{font-size:17px}
+.layer span{font-size:13px}
+.layer.suite{background:var(--blue);color:#fff;margin-bottom:12px}
+.layer.e3{background:#fff;color:var(--title)}
+.layer.e3 span{color:var(--sub)}
+.slide.active .layer.suite{animation:dropIn 1s .6s cubic-bezier(.2,.8,.2,1) both}
+.slide.active .layer.e3{animation:fadeUp .8s .3s both}
+@keyframes dropIn{from{opacity:0;transform:translateY(-46px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,calc(-50% - 8px))}}
+.ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1px solid rgba(24,96,197,.16);transform:translate(-50%,-50%)}
+.r1{width:420px;height:420px}.r2{width:310px;height:310px}
+
+/* ---------- agenda ---------- */
+.agenda{display:flex;flex-direction:column;gap:12px}
+.ag{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:8px;text-align:start;border:1px solid var(--hair);background:#fff;border-radius:12px;padding:16px 18px;transition:background .2s,border-color .2s,transform .2s}
+.ag:hover{background:var(--tint);border-color:#C5D6EE;transform:translateX(3px)}
+.ag .no{font-size:34px;font-weight:700;color:var(--blue);line-height:1}
+.ag b{display:block;font-size:20px;color:var(--title)}
+.ag .tx span{display:block;font-size:15px;color:var(--sub);margin-top:2px}
+.ag .go{color:var(--blue);font-size:20px}
+.stackc{display:flex;flex-direction:column;gap:16px}
+
+/* ---------- license stack ---------- */
+.stackv{display:flex;flex-direction:column;gap:14px}
+.slot{display:grid}
+.slot>*{grid-area:1/1}
+.ph{border:2px dashed var(--neut);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--sub);background:var(--grey)}
+.blk{border-radius:12px;padding:16px 22px}
+.blk h3{font-size:22px;font-weight:700}
+.blk .k{font-size:15px;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:12.5px;line-height:1.3;padding:3px 9px;border-radius:999px}
+.blk.suite{background:var(--blue);color:#fff;box-shadow:0 14px 30px rgba(24,96,197,.25)}
+.blk.suite .chip{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.4)}
+.blk.e3{background:var(--e3);color:var(--title)}
+.blk.e3 .k{color:var(--sub)}
+.blk.e3 .chip{background:#fff;color:var(--body);border:1px solid var(--hair)}
+.eq{font-size:14.5px;font-weight:700;color:var(--title)}
+.slot2{display:grid;align-items:start}
+.slot2>*{grid-area:1/1}
+.facts{display:flex;flex-direction:column;gap:16px}
+.facts dt{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.facts dd{font-size:17px;line-height:1.45;color:var(--body);margin-top:3px}
+
+/* ---------- charts ---------- */
+.chart{position:relative;--lw:240px;--rr:200px}
+.chart.opt{--lw:205px;--rr:170px}
+.chart .gl{position:absolute;top:0;bottom:30px;left:var(--lw);right:var(--rr);pointer-events:none}
+.chart .gl i{position:absolute;top:0;bottom:0;left:var(--x);width:1px;background:var(--hair)}
+.chart .gl i:first-child{background:var(--base);width:2px;margin-left:-1px}
+.row{position:relative;display:grid;grid-template-columns:var(--lw) 1fr var(--rr);align-items:center;height:68px}
+.rl b{display:block;font-size:16px;color:var(--title)}
+.rl span{display:block;font-size:13.5px;color:var(--sub)}
+.plot{position:relative;height:40px}
+.bar{position:absolute;top:0;bottom:0;left:var(--l,0);width:0;border-radius:0 6px 6px 0;transition:width 1.1s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--d,0)*200ms + 250ms);display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;font-size:13px;font-weight:700}
+.bar.flat{border-radius:0}
+.bar.blue{background:var(--blue);color:#fff}
+.bar.neut{background:var(--neut);color:var(--title)}
+.slide.active .bar{width:var(--w)}
+.val{position:absolute;top:50%;left:calc(var(--w) + 12px);transform:translateY(-50%);font-size:16px;font-weight:700;color:var(--title);white-space:nowrap;opacity:0;transition:opacity .4s ease;transition-delay:calc(var(--d,0)*200ms + 1000ms)}
+.val.muted{font-weight:400;font-style:italic;color:var(--sub);font-size:14px;left:12px;white-space:normal;width:calc(100% + var(--rr) - 12px);line-height:1.3}
+.slide.active .val{opacity:1}
+.ax{position:relative;height:30px;margin-left:var(--lw);margin-right:var(--rr)}
+.ax span{position:absolute;top:8px;left:var(--x);transform:translateX(-50%);font-size:12.5px;color:var(--cap);white-space:nowrap}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.tile{background:var(--grey);border-radius:12px;padding:15px 18px}
+.tile h4{font-size:16px;color:var(--title)}
+.tile p{font-size:14px;color:var(--body);margin-top:4px;line-height:1.45}
+
+/* ---------- pay-as-you-go ---------- */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pc{background:var(--grey);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;min-height:150px}
+.pc h4{font-size:16.5px;color:var(--title)}
+.pc p{font-size:14px;color:var(--body);line-height:1.45;margin-top:6px;flex:1}
+.pc .meter{font-size:13px;font-weight:700;color:var(--blue);margin-top:10px}
+.foot-note{font-size:14px;color:var(--sub);margin-top:16px;line-height:1.45}
+
+/* ---------- waffle ---------- */
+.waffle{display:grid;grid-template-columns:repeat(10,30px);grid-auto-rows:30px;gap:7px}
+.cell{border-radius:6px;background:var(--cell);transition:background-color .4s ease;transition-delay:calc(var(--i,0)*12ms)}
+.slide.s1 .cell.lic{background:var(--blue)}
+.slide.active .cell{animation:pop .45s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*5ms + 150ms)}
+@keyframes pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+.legend{display:flex;gap:18px;margin-top:14px;font-size:13.5px;color:var(--sub)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:7px}
+.slot3{display:grid;align-items:start}
+.slot3>*{grid-area:1/1}
+.kset{display:flex;flex-direction:column;gap:22px}
+.kpi{display:flex;flex-direction:column}
+.kpi .num{font-size:58px;font-weight:700;line-height:1;color:var(--slate);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi.blue .num{color:var(--blue)}
+.kpi .lbl{font-size:17px;color:var(--body);margin-top:6px}
+.quote{background:var(--tint);border-radius:12px;padding:18px 22px;margin-top:26px;border-left:4px solid var(--blue)}
+.quote p{font-size:20px;font-weight:600;font-style:italic;color:var(--title);line-height:1.4}
+.quote cite{display:block;font-style:normal;font-size:13px;color:var(--sub);margin-top:6px}
+.quote.wide{margin-top:0;padding:16px 26px}
+
+/* ---------- steps ---------- */
+.steps{position:relative;display:flex;flex-direction:column;gap:12px}
+.steps::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:var(--hair)}
+.step{position:relative;display:grid;grid-template-columns:44px 250px 1fr;gap:18px;align-items:center;min-height:46px}
+.dot{width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px #fff}
+.step h4{font-size:17px;color:var(--title)}
+.step p{font-size:15px;color:var(--body);line-height:1.4}
+.band{background:var(--tint);border-radius:12px;padding:14px 22px;margin-top:22px}
+.band .txt{font-size:16px;color:var(--body);line-height:1.45;margin-top:4px}
+
+/* ---------- sources ---------- */
+.srcgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px 26px}
+.src{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:6px 10px;border-radius:10px;scroll-margin-top:90px}
+.src .no{width:26px;height:26px;border-radius:50%;background:var(--tint);color:var(--blue);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.src a{font-size:14.5px;font-weight:700;color:var(--title);text-decoration:none}
+.src a:hover{color:var(--blue);text-decoration:underline}
+.src .m{font-size:12.5px;color:var(--sub);line-height:1.4;margin-top:1px}
+.src.flash{animation:flash 2.4s ease}
+@keyframes flash{0%,55%{background:var(--hl)}100%{background:rgba(255,241,194,0)}}
+.disc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+.disc .card{padding:14px 18px}
+.disc .txt{font-size:13.5px;line-height:1.45;color:var(--body);margin-top:4px}
+.backbtn{position:absolute;top:44px;right:64px}
+
+/* ---------- contents dialog ---------- */
+.toc{position:fixed;inset:0;background:rgba(238,242,246,.8);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.toc[hidden]{display:none}
+.toc-in{background:#fff;border-radius:14px;box-shadow:0 30px 80px rgba(36,58,94,.22);width:min(780px,100%);max-height:min(86vh,720px);display:flex;flex-direction:column;overflow:hidden}
+.toc-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--hair)}
+.toc-hd h2{font-size:20px;color:var(--title)}
+.toc ol{overflow:auto;padding:10px 12px 16px;columns:2;column-gap:12px}
+.toc li{break-inside:avoid}
+.toc li button{display:flex;gap:10px;width:100%;text-align:start;background:none;border:0;border-radius:8px;padding:8px 10px;font-size:14px;color:var(--body);line-height:1.35}
+.toc li button:hover,.toc li button[aria-current="true"]{background:var(--tint);color:var(--title)}
+.toc li .n{color:var(--blue);font-weight:700;min-width:22px;font-variant-numeric:tabular-nums}
+
+/* ---------- scroll (document) view ---------- */
+html.doc body{overflow:auto;height:auto}
+html.doc .viewport{position:static;overflow:visible}
+html.doc .stage{position:static;transform:none;width:auto;height:auto;max-width:1000px;margin:0 auto;padding:72px 14px 28px}
+html.doc .slide{position:relative;inset:auto;opacity:1;visibility:visible;transform:none;transition:none;height:auto;margin:0 0 18px;padding:28px 28px 14px;box-shadow:0 6px 24px rgba(36,58,94,.08)}
+html.doc .slide.sec{flex-direction:column;padding:0}
+html.doc .sec .l{flex:none;padding:28px 28px 14px}
+html.doc .sec .panel{flex:none;height:76px;order:-1}
+html.doc .panel .num{font-size:96px;bottom:-12px}
+html.doc .panel .msg,html.doc .layers,html.doc .ring{display:none}
+html.doc .cols{grid-template-columns:1fr!important}
+html.doc .bd{flex:none}
+html.doc .progress,html.doc .tb-c,html.doc #btn-fs{display:none}
+html.doc .toolbar{top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--hair)}
+html.doc .tb-l{display:flex}
+html.doc .hint,html.doc .off{display:none!important}
+html.doc .ans{min-height:0}
+html.doc .backbtn{display:none}
+html.doc *,html.doc *::before,html.doc *::after{animation:none!important;transition:none!important}
+html.doc .f,html.doc .fg .st{opacity:1;transform:none}
+html.doc .bar{width:var(--w)}
+html.doc .val{opacity:1}
+html.doc .cell.lic{background:var(--blue)}
+@media (max-width:760px){
+ html.doc .tb-l{display:none}
+ html.doc .tb-r{flex:1;justify-content:center;flex-wrap:wrap}
+ html.doc .btn{padding:7px 9px;font-size:12.5px}
+ html.doc .slide{padding:22px 16px 12px}
+ html.doc .sec .l{padding:22px 16px 12px}
+ html.doc .hd h2{font-size:25px}
+ html.doc .sec h2.q{font-size:28px}
+ html.doc .cover h1{font-size:36px}
+ html.doc .cover .sub{font-size:21px}
+ html.doc .lede,html.doc .cover .intro{font-size:16px}
+ html.doc .ans .big,html.doc .lead{font-size:17px}
+ html.doc .grid3,html.doc .tiles,html.doc .srcgrid,html.doc .disc{grid-template-columns:1fr}
+ html.doc .chart,html.doc .chart.opt{--lw:100px;--rr:104px}
+ html.doc .ax span:not(:first-child):not(:last-child){display:none}
+ html.doc .chart.opt .val{font-size:12px}
+ html.doc .rl b{font-size:13.5px}
+ html.doc .rl span{font-size:12px}
+ html.doc .val{font-size:13px}
+ html.doc .bar{font-size:11px}
+ html.doc .step{grid-template-columns:36px 1fr;gap:4px 12px}
+ html.doc .step p{grid-column:2}
+ html.doc .dot{width:36px;height:36px;font-size:15px}
+ html.doc .steps::before{left:17px}
+ html.doc .waffle{grid-template-columns:repeat(10,24px);grid-auto-rows:24px;gap:5px}
+ html.doc .t{font-size:13px}
+ html.doc .t th,html.doc .t td{padding:6px 8px}
+ html.doc .kpi .num{font-size:44px}
+ html.doc .sf{flex-direction:column;align-items:flex-start;gap:6px}
+ html.doc .toc ol{columns:1}
+}
+
+/* ---------- print: one slide per page ---------- */
+@media print{
+ @page{size:1280px 720px;margin:0}
+ html,body{height:auto;overflow:visible;background:#fff}
+ *,*::before,*::after{-webkit-print-color-adjust:exact;print-color-adjust:exact;animation:none!important;transition:none!important}
+ .progress,.toolbar,.toc,.backbtn,#live{display:none!important}
+ .viewport{position:static;overflow:visible}
+ .stage{position:static;transform:none!important;width:1280px;height:auto;margin:0;padding:0}
+ .slide{position:relative;inset:auto;opacity:1!important;visibility:visible!important;transform:none!important;width:1280px;height:720px;border-radius:0;box-shadow:none;break-after:page;page-break-after:always}
+ .slide:last-child{break-after:auto;page-break-after:auto}
+ .f,.fg .st{opacity:1!important;transform:none!important}
+ .off,.hint{display:none!important}
+ .bar{width:var(--w)!important}
+ .val{opacity:1!important}
+ .cell.lic{background:var(--blue)!important}
+}
+@media (prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important}
+}
+
+.tk{display:flex;flex-direction:column;gap:16px;margin-top:30px}
+.tk li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:baseline;font-size:19px;line-height:1.45;color:var(--body)}
+.tk .tn{font-size:22px;font-weight:700;color:var(--blue)}
+.nx{margin-top:28px;font-size:16px;color:var(--title)}
+html.doc .tk li{font-size:16px}
+
+</style>
+<noscript><style>body{overflow:auto}.viewport{position:static}.stage{position:static;transform:none;width:1280px;height:auto;margin:0 auto;padding:20px 0}.slide{position:relative;opacity:1;visibility:visible;transform:none;margin:0 auto 20px;height:720px}.f,.fg .st{opacity:1;transform:none}.bar{width:var(--w)}.val{opacity:1}.cell.lic{background:#1860C5}.toolbar,.progress,.hint,[data-fout]{display:none}</style></noscript>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+<main class="viewport" id="viewport" aria-roledescription="presentation" aria-label="Microsoft Purview Suite licensing, explained">
+<div class="stage" id="stage">
+<section class="slide sec cover" id="s1" data-title="Microsoft Purview Suite: what the license really changes" role="group" aria-roledescription="slide" aria-label="1 of 21: Microsoft Purview Suite: what the license really changes">
+<div class="l">
+  <p class="eyebrow a" style="--d:0">Licensing explainer · Last verified 5 November 2026</p>
+  <h1 class="a" style="--d:1">Microsoft Purview Suite</h1>
+  <p class="sub a" style="--d:2">What the license really changes</p>
+  <p class="intro a" style="--d:3">Three customer questions, answered from public Microsoft documentation, with a source behind every claim.</p>
+  <ol class="qs a" style="--d:4"><li><b>01</b>Licensed vs. not licensed</li><li><b>02</b>What still works without the Suite</li><li><b>03</b>1,000 employees, 500 licenses: and the rest?</li></ol>
+  <p class="start a" style="--d:5"><span class="kbd">Click</span> or press <span class="kbd">→</span> to begin. Numbers in brackets link to the source.</p>
+  <div class="grow"></div>
+  <footer class="sf"><div class="sl">Not an official licensing statement. The Microsoft Product Terms and your agreement govern.</div><div class="pn">1 / 21</div></footer>
+</div>
+<div class="panel" aria-hidden="true">
+  <span class="ring r1"></span><span class="ring r2"></span>
+  <div class="layers"><div class="layer suite"><b>+ Microsoft Purview Suite</b><span>Automation · reach · depth</span></div><div class="layer e3"><b>Microsoft 365 E3</b><span>Core Purview for every user</span></div></div>
+</div></section>
+<section class="slide" id="s2" data-title="Three questions this explainer answers" role="group" aria-roledescription="slide" aria-label="2 of 21: Three questions this explainer answers">
+<header class="hd a" style="--d:0"><p class="eyebrow">Honest answers from Microsoft sources</p><h2>Three questions this explainer answers</h2></header>
+<div class="bd cols" style="--c:1.2fr 1fr">
+  <div class="agenda">
+    <button type="button" class="ag a" style="--d:1" data-goto="s3"><span class="no">01</span><span class="tx"><b>Licensed vs. not licensed</b><span>What the Suite adds on top of Microsoft 365 E3</span></span><span class="go" aria-hidden="true">→</span></button>
+    <button type="button" class="ag a" style="--d:2" data-goto="s9"><span class="no">02</span><span class="tx"><b>No Suite license: can and can't</b><span>What still works without it, and what doesn't</span></span><span class="go" aria-hidden="true">→</span></button>
+    <button type="button" class="ag a" style="--d:3" data-goto="s12"><span class="no">03</span><span class="tx"><b>1,000 employees, 500 licenses</b><span>The other 500: rules, risks and options</span></span><span class="go" aria-hidden="true">→</span></button>
+  </div>
+  <div class="stackc">
+    <div class="card a" style="--d:4"><p class="eyebrow">Ground rules</p><ul class="ticks">
+      <li>Every claim links to public Microsoft documentation (numbers in brackets).</li>
+      <li>Baseline: Microsoft 365 E3, the Suite's prerequisite.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup></li>
+      <li>Prices: US list prices from microsoft.com, for illustration only.</li>
+      <li>The Microsoft Product Terms and your agreement always govern.</li></ul></div>
+    <div class="card tint a" style="--d:5"><p class="eyebrow">How to use this page</p><ul class="ticks">
+      <li>Click, press <span class="kbd">→</span> or swipe to advance; <span class="kbd">←</span> goes back.</li>
+      <li>Contents jumps to any slide; Sources lists every reference.</li>
+      <li>Scroll view reads well on phones; Print / PDF saves a copy.</li></ul></div>
+  </div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/en-us/security/microsoft-purview-suite" target="_blank" rel="noopener">[1] Purview Suite product page and FAQ</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">2 / 21</div></footer></section>
+<section class="slide sec" id="s3" data-title="Question 01: What changes with a Purview Suite license?" role="group" aria-roledescription="slide" aria-label="3 of 21: Question 01: What changes with a Purview Suite license?">
+<div class="l">
+  <p class="eyebrow a" style="--d:0">Question 01</p>
+  <h2 class="q a" style="--d:1">What changes with a Purview Suite license?</h2>
+  <div class="ans">
+    <p class="hint" data-fout="1"><span class="kbd">Click</span> for the short answer</p>
+    <div class="f" data-f="1"><p class="lbl">Short answer</p><p class="big">Microsoft 365 E3 already includes core Purview. The Suite adds automation, reach and depth on top: auto-labeling, DLP for Teams, devices and Copilot, insider-risk tools, premium eDiscovery and longer audit retention, for each licensed user.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>,<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div>
+    
+  </div>
+  <div class="grow"></div>
+  <footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/en-us/security/microsoft-purview-suite" target="_blank" rel="noopener">[1] Purview Suite product page and FAQ</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a></div><div class="pn">3 / 21</div></footer>
+</div>
+<div class="panel" aria-hidden="true"><span class="num">01</span></div></section>
+<section class="slide" id="s4" data-title="The Suite is an add-on to Microsoft 365 E3" role="group" aria-roledescription="slide" aria-label="4 of 21: The Suite is an add-on to Microsoft 365 E3">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 01 · The license</p><h2>The Suite is an add-on to Microsoft 365 E3</h2><p class="lede">You keep Microsoft 365 E3 and add the Suite for each user who needs it.</p></header>
+<div class="bd cols" style="--c:1fr 1fr">
+  <div class="stackv">
+    <div class="slot">
+      <div class="ph" data-fout="1">What does the Suite add?</div>
+      <div class="blk suite f drop" data-f="1"><h3>+ Microsoft Purview Suite</h3><p class="k">Add-on, licensed per user</p>
+        <div class="chips"><span class="chip">Auto-labeling</span><span class="chip">DLP for Teams, devices, Copilot</span><span class="chip">Insider Risk</span><span class="chip">Communication Compliance</span><span class="chip">eDiscovery &amp; Audit (Premium)</span><span class="chip">Records management</span></div></div>
+    </div>
+    <div class="blk e3 a" style="--d:1"><h3>Microsoft 365 E3</h3><p class="k">Core Purview for every licensed user</p>
+      <div class="chips"><span class="chip">Manual labels</span><span class="chip">DLP for email and files</span><span class="chip">Retention</span><span class="chip">eDiscovery (Standard)</span><span class="chip">Audit (Standard)</span><span class="chip">Compliance Manager</span></div></div>
+    <p class="eq f" data-f="1">E3 + Suite = the Purview capabilities of Microsoft 365 E5<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p>
+  </div>
+  <div class="slot2">
+    <div class="sp" data-fout="1"><p class="eyebrow">The starting point</p><p class="lead">Every Microsoft 365 E3 user already has core Purview. The real question is what the extra layer adds, and for whom.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div>
+    <dl class="facts fg" data-f="1">
+      <div class="st" style="--i:0"><dt>What it is</dt><dd>Formerly Microsoft 365 E5 Compliance. Microsoft says the rename changes neither features nor price.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup></dd></div>
+      <div class="st" style="--i:1"><dt>Prerequisite</dt><dd>Microsoft 365 E3, or Office 365 E3 plus Enterprise Mobility + Security E3.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup></dd></div>
+      <div class="st" style="--i:2"><dt>Licensed per user</dt><dd>One license for each user whose data you protect or manage with it.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup></dd></div>
+      <div class="st" style="--i:3"><dt>US list price</dt><dd>USD 12.00 per user per month, paid yearly. Your agreement price may differ.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup></dd></div>
+    </dl>
+  </div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/en-us/security/microsoft-purview-suite" target="_blank" rel="noopener">[1] Purview Suite product page and FAQ</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a></div><div class="pn">4 / 21</div></footer></section>
+<section class="slide" id="s5" data-title="Data security, feature by feature" role="group" aria-roledescription="slide" aria-label="5 of 21: Data security, feature by feature">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 01 · Data security</p><h2>Data security, feature by feature</h2><p class="lede">What each license unlocks for classifying, protecting and keeping data from leaking.</p></header>
+<div class="bd cols" style="--c:1fr 262px">
+  <div class="tw"><table class="t"><caption class="sr">Data security capabilities: Microsoft 365 E3 compared with E3 plus the Purview Suite</caption><colgroup><col style="width:28%"><col style="width:34%"><col style="width:38%"></colgroup><thead><tr><th scope="col">Capability</th><th scope="col">Microsoft 365 E3</th><th scope="col">E3 + Purview Suite</th></tr></thead><tbody><tr style="--r:0"><th scope="row" class="rh">Sensitivity labels</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Manual, default and mandatory labeling</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus auto-labeling in Office apps and service-side policies</td></tr><tr style="--r:1"><th scope="row" class="rh">Email encryption</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Basic Message Encryption</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus Advanced Message Encryption (expiry, revocation)</td></tr><tr style="--r:2"><th scope="row" class="rh">Customer-managed keys</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Customer Key (license-count rules apply)</td></tr><tr style="--r:3"><th scope="row" class="rh">DLP for email and files</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Exchange, SharePoint, OneDrive</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus advanced DLP policy tips in Outlook</td></tr><tr style="--r:4"><th scope="row" class="rh">DLP for Teams and devices</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Teams chats and channels; Endpoint DLP (Windows, macOS)</td></tr><tr style="--r:5"><th scope="row" class="rh">DLP for Copilot</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Prompt protection, for all Copilot users</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus stopping Copilot from processing sensitive files and email</td></tr><tr style="--r:6"><th scope="row" class="rh">DLP in browser and network</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Managed apps in Edge; unmanaged apps are pay-as-you-go</td></tr><tr style="--r:7"><th scope="row" class="rh">Cloud apps (SaaS)</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Microsoft Defender for Cloud Apps</td></tr></tbody></table></div>
+  <div class="side fg" data-f="1"><p class="eyebrow">Biggest differences</p><div class="items"><div class="it st" style="--i:0"><h4>Automation</h4><p>Auto-labeling finds and labels sensitive data without relying on users</p></div><div class="it st" style="--i:1"><h4>Reach</h4><p>DLP extends to Teams, Windows and macOS devices, and Copilot</p></div><div class="it st" style="--i:2"><h4>Control</h4><p>Customer Key and Advanced Message Encryption</p></div></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/ome-faq" target="_blank" rel="noopener">[7] Message encryption FAQ</a></div><div class="pn">5 / 21</div></footer></section>
+<section class="slide" id="s6" data-title="Compliance and risk, feature by feature" role="group" aria-roledescription="slide" aria-label="6 of 21: Compliance and risk, feature by feature">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 01 · Compliance &amp; risk</p><h2>Compliance &amp; risk, feature by feature</h2><p class="lede">What each license unlocks for retention, investigations, audit and insider risk.</p></header>
+<div class="bd cols" style="--c:1fr 262px">
+  <div class="tw"><table class="t"><caption class="sr">Compliance and risk capabilities: Microsoft 365 E3 compared with E3 plus the Purview Suite</caption><colgroup><col style="width:30%"><col style="width:33%"><col style="width:37%"></colgroup><thead><tr><th scope="col">Capability</th><th scope="col">Microsoft 365 E3</th><th scope="col">E3 + Purview Suite</th></tr></thead><tbody><tr style="--r:0"><th scope="row" class="rh">Retention</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Org-wide or location policies; manual labels</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus auto-apply labels and adaptive scopes</td></tr><tr style="--r:1"><th scope="row" class="rh">Records management</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Disposition review; event-based and regulatory records</td></tr><tr style="--r:2"><th scope="row" class="rh">eDiscovery</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Standard: search, cases, holds, export</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus Premium: review sets, analytics, custodians</td></tr><tr style="--r:3"><th scope="row" class="rh">Audit</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Standard: 180-day retention</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Premium: 1 year by default; 10 years with an add-on</td></tr><tr style="--r:4"><th scope="row" class="rh">Insider Risk Management</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Included; some indicators are pay-as-you-go</td></tr><tr style="--r:5"><th scope="row" class="rh">Communication Compliance</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Included; analyzing Copilot also needs Copilot</td></tr><tr style="--r:6"><th scope="row" class="rh">Information Barriers</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Included</td></tr><tr style="--r:7"><th scope="row" class="rh">Customer Lockbox, Privileged Access</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Included</td></tr></tbody></table></div>
+  <div class="side fg" data-f="1"><p class="eyebrow">Biggest differences</p><div class="items"><div class="it st" style="--i:0"><h4>People risk</h4><p>Insider Risk, Communication Compliance, Information Barriers</p></div><div class="it st" style="--i:1"><h4>Investigation depth</h4><p>eDiscovery (Premium) and 1-year audit retention by default</p></div><div class="it st" style="--i:2"><h4>Formal records</h4><p>Disposition review, event-based and regulatory records</p></div></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/edisc-get-started" target="_blank" rel="noopener">[8] Get started with eDiscovery</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/insider-risk-management-configure" target="_blank" rel="noopener">[9] Get started with Insider Risk Management</a></div><div class="pn">6 / 21</div></footer></section>
+<section class="slide" id="s7" data-title="How far back audit can look" role="group" aria-roledescription="slide" aria-label="7 of 21: How far back audit can look">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 01 · Audit</p><h2>How far back audit can look</h2><p class="lede">Default audit log retention by license, drawn to scale. Retention follows each user's license.</p></header>
+<div class="bd">
+  <figure class="chart" role="img" aria-label="Bar chart, 0 to 10 years: Audit (Standard) keeps 180 days; Audit (Premium) keeps 1 year by default; with the 10-year add-on, up to 10 years.">
+    <div class="gl"><i style="--x:0%"></i><i style="--x:20%"></i><i style="--x:40%"></i><i style="--x:60%"></i><i style="--x:80%"></i><i style="--x:100%"></i></div><div class="row"><div class="rl"><b>Audit (Standard)</b><span>Microsoft 365 E3</span></div><div class="plot"><div class="bar neut" style="--w:4.93%;--d:0"></div><span class="val" style="--w:4.93%;--d:0">180 days</span></div><div></div></div><div class="row"><div class="rl"><b>Audit (Premium)</b><span>Purview Suite default</span></div><div class="plot"><div class="bar blue" style="--w:10.00%;--d:1"></div><span class="val" style="--w:10.00%;--d:1">1 year (365 days)</span></div><div></div></div><div class="row"><div class="rl"><b>Premium + add-on</b><span>10-year retention add-on</span></div><div class="plot"><div class="bar neut" style="--w:100.00%;--d:2"></div><span class="val" style="--w:100.00%;--d:2">Up to 10 years</span></div><div></div></div><div class="ax"><span style="--x:0%">0</span><span style="--x:20%">2 yrs</span><span style="--x:40%">4 yrs</span><span style="--x:60%">6 yrs</span><span style="--x:80%">8 yrs</span><span style="--x:100%">10 yrs</span></div>
+  </figure>
+  <div class="tiles">
+    <div class="tile a" style="--d:4"><h4>Follows the user's license</h4><p>One-year retention and crucial events apply only to licensed users.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div>
+    <div class="tile a" style="--d:5"><h4>Custom retention policies</h4><p>Audit (Premium) lets you set retention by service, activity or user.<sup class="cites">[<a class="cite" href="#src-5" title="Source 5: Manage audit log retention policies" aria-label="Source 5: Manage audit log retention policies">5</a>]</sup></p></div>
+    <div class="tile a" style="--d:6"><h4>Changes aren't retroactive</h4><p>New licenses or policies apply to new records, not ones already stored.<sup class="cites">[<a class="cite" href="#src-5" title="Source 5: Manage audit log retention policies" aria-label="Source 5: Manage audit log retention policies">5</a>]</sup></p></div>
+  </div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/purview/audit-solutions-overview" target="_blank" rel="noopener">[4] Auditing solutions overview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/audit-log-retention-policies" target="_blank" rel="noopener">[5] Audit log retention policies</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">7 / 21</div></footer></section>
+<section class="slide" id="s8" data-title="Copilot data: E3 vs. the Suite" role="group" aria-roledescription="slide" aria-label="8 of 21: Copilot data: E3 vs. the Suite">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 01 · Copilot &amp; AI</p><h2>Copilot data: E3 vs. the Suite</h2><p class="lede">Assumes Microsoft 365 Copilot is licensed; Copilot audit records exist only when it's in use.</p></header>
+<div class="bd cols" style="--c:1fr 262px">
+  <div class="tw"><table class="t"><caption class="sr">Purview capabilities for Copilot data: E3 plus Copilot compared with E3 plus Suite plus Copilot</caption><colgroup><col style="width:32%"><col style="width:31%"><col style="width:37%"></colgroup><thead><tr><th scope="col">Capability</th><th scope="col">E3 + Copilot</th><th scope="col">E3 + Suite + Copilot</th></tr></thead><tbody><tr style="--r:0"><th scope="row" class="rh">Audit Copilot interactions</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Audit (Standard)</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Audit (Premium): longer retention, deeper analysis</td></tr><tr style="--r:1"><th scope="row" class="rh">Retain or delete interactions</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Retention policies</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus adaptive scopes; keep exact shared file versions</td></tr><tr style="--r:2"><th scope="row" class="rh">Search, hold, export interactions</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>eDiscovery search, hold and export</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Plus Premium search</td></tr><tr style="--r:3"><th scope="row" class="rh">DLP for prompts</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>For all Copilot users</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>For all Copilot users</td></tr><tr style="--r:4"><th scope="row" class="rh">Stop Copilot using sensitive content</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>DLP restricts processing of sensitive files and email</td></tr><tr style="--r:5"><th scope="row" class="rh">Detect risky prompts and responses</th><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Not included</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Communication Compliance</td></tr><tr style="--r:6"><th scope="row" class="rh">Non-Microsoft AI apps</th><td>Pay-as-you-go</td><td>Pay-as-you-go</td></tr></tbody></table></div>
+  <div class="side fg" data-f="1"><p class="eyebrow">In short</p><div class="items"><div class="it st" style="--i:0"><h4>E3 + Copilot</h4><p>Audit, retain, search and DLP-check prompts</p></div><div class="it st" style="--i:1"><h4>Suite + Copilot</h4><p>Also stop Copilot using sensitive content and detect risky prompts</p></div><div class="it st" style="--i:2"><h4>Not covered</h4><p>Non-Microsoft AI apps run on pay-as-you-go</p></div></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/purview-billing-models" target="_blank" rel="noopener">[6] Purview billing models</a></div><div class="pn">8 / 21</div></footer></section>
+<section class="slide sec" id="s9" data-title="Question 02: Without a Suite license, what still works?" role="group" aria-roledescription="slide" aria-label="9 of 21: Question 02: Without a Suite license, what still works?">
+<div class="l">
+  <p class="eyebrow a" style="--d:0">Question 02</p>
+  <h2 class="q a" style="--d:1">Without a Suite license, what still works?</h2>
+  <div class="ans">
+    <p class="hint" data-fout="1"><span class="kbd">Click</span> for the short answer</p>
+    <div class="f" data-f="1"><p class="lbl">Short answer</p><p class="big">The essentials. Users label by hand, DLP guards email and files, retention keeps or deletes, eDiscovery searches and holds, and audit looks back 180 days. What's missing is automation, DLP for Teams, devices and Copilot, insider-risk tools and premium investigation.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>,<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div>
+    <p class="note f" data-f="1" style="margin-top:18px">Here, “without a license” means Microsoft 365 E3 without the Suite. Someone with no Microsoft 365 license isn't licensed for any of these capabilities.</p>
+  </div>
+  <div class="grow"></div>
+  <footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">9 / 21</div></footer>
+</div>
+<div class="panel" aria-hidden="true"><span class="num">02</span></div></section>
+<section class="slide" id="s10" data-title="Without the Suite: can and can&#x27;t" role="group" aria-roledescription="slide" aria-label="10 of 21: Without the Suite: can and can&#x27;t">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 02 · Users without the Suite</p><h2>Without the Suite: can and can't</h2><p class="lede">Microsoft 365 E3 covers the essentials; the gap is automation, reach and depth.</p></header>
+<div class="bd cols" style="--c:1fr 1fr">
+  <div class="card a" style="--d:1"><h3>✓&nbsp; You can, with Microsoft 365 E3<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></h3><div class="items"><div class="it a" style="--d:2"><h4>Label and encrypt by hand</h4><p>Manual, default and mandatory labels; encryption</p></div><div class="it a" style="--d:3"><h4>Prevent leaks in email and files</h4><p>DLP for Exchange, SharePoint and OneDrive</p></div><div class="it a" style="--d:4"><h4>Keep or delete on a schedule</h4><p>Retention policies and manual retention labels</p></div><div class="it a" style="--d:5"><h4>Search, hold and export</h4><p>eDiscovery (Standard): search, cases, holds, export</p></div><div class="it a" style="--d:6"><h4>Investigate activity</h4><p>Audit (Standard) with 180-day retention</p></div><div class="it a" style="--d:7"><h4>Track compliance posture</h4><p>Compliance Manager (assessments vary by license)</p></div></div></div>
+  <div class="card tint"><h3>✕&nbsp; You can't, without the Suite<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>,<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></h3><div class="items fg" data-f="1"><div class="it st" style="--i:0"><h4>Label automatically</h4><p>No auto-labeling in apps or as service policies</p></div><div class="it st" style="--i:1"><h4>Extend DLP beyond email and files</h4><p>No DLP for Teams, devices or Copilot processing</p></div><div class="it st" style="--i:2"><h4>Detect people-driven risk</h4><p>No Insider Risk Management or Communication Compliance</p></div><div class="it st" style="--i:3"><h4>Manage formal records</h4><p>No disposition review or regulatory records</p></div><div class="it st" style="--i:4"><h4>Run deep investigations</h4><p>No eDiscovery (Premium) review sets or analytics</p></div><div class="it st" style="--i:5"><h4>Keep audit longer</h4><p>No 1-year audit retention or crucial-event logging</p></div></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">10 / 21</div></footer></section>
+<section class="slide" id="s11" data-title="Not everything is licensed per user" role="group" aria-roledescription="slide" aria-label="11 of 21: Not everything is licensed per user">
+<header class="hd a" style="--d:0"><p class="eyebrow">Beyond the Suite · Pay-as-you-go</p><h2>Not everything is licensed per user</h2><p class="lede">Some Purview capabilities bill by usage through an Azure subscription, with or without the Suite.<sup class="cites">[<a class="cite" href="#src-6" title="Source 6: Learn about Microsoft Purview billing models" aria-label="Source 6: Learn about Microsoft Purview billing models">6</a>]</sup></p></header>
+<div class="bd">
+  <div class="grid3"><div class="pc a" style="--d:1"><h4>Non-Microsoft 365 data</h4><p>Labels and protection policies for sources such as Azure SQL, Fabric and AWS</p><span class="meter">Meter: assets in scope per day</span></div><div class="pc a" style="--d:2"><h4>Non-Microsoft AI apps</h4><p>Audit, retention, communication compliance and data security for AI interactions</p><span class="meter">Meter: records or requests</span></div><div class="pc a" style="--d:3"><h4>Network &amp; browser DLP</h4><p>Protect sensitive data shared to unmanaged cloud and AI apps</p><span class="meter">Meter: requests</span></div><div class="pc a" style="--d:4"><h4>Insider risk beyond Microsoft 365</h4><p>Indicators for Box, Dropbox, Google Drive, AWS, Azure and Fabric</p><span class="meter">Meter: processing units</span></div><div class="pc a" style="--d:5"><h4>AI-assisted investigations</h4><p>Data Security Investigations: analyze incident data with AI</p><span class="meter">Meter: storage and compute</span></div><div class="pc a" style="--d:6"><h4>Data governance</h4><p>Unified Catalog curation and data quality management</p><span class="meter">Meter: assets per day; data governance processing units</span></div></div>
+  <p class="foot-note a" style="--d:7">Per-user licenses and pay-as-you-go complement each other. Microsoft 365 Copilot experiences aren't charged under pay-as-you-go.<sup class="cites">[<a class="cite" href="#src-6" title="Source 6: Learn about Microsoft Purview billing models" aria-label="Source 6: Learn about Microsoft Purview billing models">6</a>]</sup></p>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Source</span> <a href="https://learn.microsoft.com/en-us/purview/purview-billing-models" target="_blank" rel="noopener">[6] Purview billing models</a></div><div class="pn">11 / 21</div></footer></section>
+<section class="slide sec" id="s12" data-title="Question 03: 1,000 employees, 500 licenses: what about the rest?" role="group" aria-roledescription="slide" aria-label="12 of 21: Question 03: 1,000 employees, 500 licenses: what about the rest?">
+<div class="l">
+  <p class="eyebrow a" style="--d:0">Question 03</p>
+  <h2 class="q a" style="--d:1">1,000 employees, 500 licenses: what about the rest?</h2>
+  <div class="ans">
+    <p class="hint" data-fout="1"><span class="kbd">Click</span> for the short answer</p>
+    <div class="f" data-f="1"><p class="lbl">Short answer</p><p class="big">They keep everything Microsoft 365 E3 includes. Suite features must be scoped to the 500 licensed users: Microsoft requires a license for every user who benefits, even where a service can't technically limit it.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>,<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div>
+    
+  </div>
+  <div class="grow"></div>
+  <footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a></div><div class="pn">12 / 21</div></footer>
+</div>
+<div class="panel" aria-hidden="true"><span class="num">03</span></div></section>
+<section class="slide" id="s13" data-title="1,000 employees, 500 Suite licenses" role="group" aria-roledescription="slide" aria-label="13 of 21: 1,000 employees, 500 Suite licenses">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · The scenario</p><h2>1,000 employees, 500 Suite licenses</h2><p class="lede">Illustrative scenario: all 1,000 employees hold Microsoft 365 E3. One square = 10 employees.</p></header>
+<div class="bd cols" style="--c:390px 1fr;gap:56px">
+  <figure>
+    <div class="waffle" role="img" aria-label="Waffle chart of 100 squares, each 10 employees. All 1,000 employees have Microsoft 365 E3; 50 squares, 500 employees, also have the Purview Suite."><i class="cell lic" style="--i:0"></i><i class="cell lic" style="--i:1"></i><i class="cell lic" style="--i:2"></i><i class="cell lic" style="--i:3"></i><i class="cell lic" style="--i:4"></i><i class="cell lic" style="--i:5"></i><i class="cell lic" style="--i:6"></i><i class="cell lic" style="--i:7"></i><i class="cell lic" style="--i:8"></i><i class="cell lic" style="--i:9"></i><i class="cell lic" style="--i:10"></i><i class="cell lic" style="--i:11"></i><i class="cell lic" style="--i:12"></i><i class="cell lic" style="--i:13"></i><i class="cell lic" style="--i:14"></i><i class="cell lic" style="--i:15"></i><i class="cell lic" style="--i:16"></i><i class="cell lic" style="--i:17"></i><i class="cell lic" style="--i:18"></i><i class="cell lic" style="--i:19"></i><i class="cell lic" style="--i:20"></i><i class="cell lic" style="--i:21"></i><i class="cell lic" style="--i:22"></i><i class="cell lic" style="--i:23"></i><i class="cell lic" style="--i:24"></i><i class="cell lic" style="--i:25"></i><i class="cell lic" style="--i:26"></i><i class="cell lic" style="--i:27"></i><i class="cell lic" style="--i:28"></i><i class="cell lic" style="--i:29"></i><i class="cell lic" style="--i:30"></i><i class="cell lic" style="--i:31"></i><i class="cell lic" style="--i:32"></i><i class="cell lic" style="--i:33"></i><i class="cell lic" style="--i:34"></i><i class="cell lic" style="--i:35"></i><i class="cell lic" style="--i:36"></i><i class="cell lic" style="--i:37"></i><i class="cell lic" style="--i:38"></i><i class="cell lic" style="--i:39"></i><i class="cell lic" style="--i:40"></i><i class="cell lic" style="--i:41"></i><i class="cell lic" style="--i:42"></i><i class="cell lic" style="--i:43"></i><i class="cell lic" style="--i:44"></i><i class="cell lic" style="--i:45"></i><i class="cell lic" style="--i:46"></i><i class="cell lic" style="--i:47"></i><i class="cell lic" style="--i:48"></i><i class="cell lic" style="--i:49"></i><i class="cell" style="--i:50"></i><i class="cell" style="--i:51"></i><i class="cell" style="--i:52"></i><i class="cell" style="--i:53"></i><i class="cell" style="--i:54"></i><i class="cell" style="--i:55"></i><i class="cell" style="--i:56"></i><i class="cell" style="--i:57"></i><i class="cell" style="--i:58"></i><i class="cell" style="--i:59"></i><i class="cell" style="--i:60"></i><i class="cell" style="--i:61"></i><i class="cell" style="--i:62"></i><i class="cell" style="--i:63"></i><i class="cell" style="--i:64"></i><i class="cell" style="--i:65"></i><i class="cell" style="--i:66"></i><i class="cell" style="--i:67"></i><i class="cell" style="--i:68"></i><i class="cell" style="--i:69"></i><i class="cell" style="--i:70"></i><i class="cell" style="--i:71"></i><i class="cell" style="--i:72"></i><i class="cell" style="--i:73"></i><i class="cell" style="--i:74"></i><i class="cell" style="--i:75"></i><i class="cell" style="--i:76"></i><i class="cell" style="--i:77"></i><i class="cell" style="--i:78"></i><i class="cell" style="--i:79"></i><i class="cell" style="--i:80"></i><i class="cell" style="--i:81"></i><i class="cell" style="--i:82"></i><i class="cell" style="--i:83"></i><i class="cell" style="--i:84"></i><i class="cell" style="--i:85"></i><i class="cell" style="--i:86"></i><i class="cell" style="--i:87"></i><i class="cell" style="--i:88"></i><i class="cell" style="--i:89"></i><i class="cell" style="--i:90"></i><i class="cell" style="--i:91"></i><i class="cell" style="--i:92"></i><i class="cell" style="--i:93"></i><i class="cell" style="--i:94"></i><i class="cell" style="--i:95"></i><i class="cell" style="--i:96"></i><i class="cell" style="--i:97"></i><i class="cell" style="--i:98"></i><i class="cell" style="--i:99"></i></div>
+    <figcaption class="legend"><span><i style="background:var(--blue)"></i>Suite + E3 (500)</span><span><i style="background:var(--cell)"></i>E3 only (500)</span></figcaption>
+  </figure>
+  <div class="slot3">
+    <div class="k0" data-fout="1">
+      <div class="kpi"><span class="num count" data-to="1000">1,000</span><span class="lbl">employees on Microsoft 365 E3</span></div>
+      <p class="lead" style="margin-top:22px">Every one of them already has core Purview: manual, default and mandatory labels, DLP for email and files, retention, eDiscovery (Standard), Audit (Standard) and Compliance Manager.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p>
+    </div>
+    <div class="k1"><div class="kset f" data-f="1">
+      <div class="kpi blue"><span class="num count" data-to="500">500</span><span class="lbl">with the Suite: E3 core plus Suite capabilities</span></div>
+      <div class="kpi"><span class="num count" data-to="500">500</span><span class="lbl">on E3 only: core Purview, outside Suite policies</span></div>
+    </div>
+    <blockquote class="quote f" data-f="2"><p>“Any user benefiting from the service requires a license.”</p><cite>Microsoft Purview service description<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></cite></blockquote></div>
+  </div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span>Illustrative scenario, not customer data</div><div class="pn">13 / 21</div></footer></section>
+<section class="slide" id="s14" data-title="Who counts as benefiting" role="group" aria-roledescription="slide" aria-label="14 of 21: Who counts as benefiting">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · The rule</p><h2>Who counts as benefiting</h2><p class="lede">Microsoft's examples of who needs a license once a Suite feature applies (not exhaustive).<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></header>
+<div class="bd cols" style="--c:1.45fr 1fr">
+  <div class="card tint a" style="--d:1"><h3>Needs a Suite license</h3><div class="items"><div class="it a" style="--d:2"><h4>Owners of mailboxes, OneDrive, Teams chats, devices</h4><p>These belong to a user, so that user needs the license</p></div><div class="it a" style="--d:3"><h4>Owners and members of shared spaces</h4><p>SharePoint sites, Microsoft 365 Groups, Teams channels under a Suite policy</p></div><div class="it a" style="--d:4"><h4>People with Purview roles</h4><p>Admins and investigators assigned a role in the Purview portal</p></div><div class="it a" style="--d:5"><h4>eDiscovery (Premium) custodians and admins</h4><p>Both the person whose data is analyzed and the admin doing it</p></div><div class="it a" style="--d:6"><h4>Shared or resource mailboxes</h4><p>When the feature needs an E5-level license, such as the Suite</p></div><div class="it a" style="--d:7"><h4>Information Barriers segments</h4><p>Every user in a segment assigned to a barrier policy</p></div></div></div>
+  <div class="card fg" data-f="1"><h3 class="st" style="--i:0">No license needed</h3><div class="items"><div class="it st" style="--i:0"><h4>Site visitors, view-only users</h4><p>Read access to a covered site or team</p></div><div class="it st" style="--i:1"><h4>Inactive mailboxes</h4><p>Retained mailboxes of people who left</p></div><div class="it st" style="--i:2"><h4>Shared mailboxes, many features</h4><p>Unless the feature is E5-level</p></div></div>
+    <div class="st" style="--i:4;margin-top:18px"><p class="eyebrow">Practical tip</p><p style="font-size:15px;line-height:1.45;margin-top:4px">Keep each shared team or site either fully licensed or outside Suite policy scope.</p></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Source</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">14 / 21</div></footer></section>
+<section class="slide" id="s15" data-title="The other 500: what they keep and what they don&#x27;t" role="group" aria-roledescription="slide" aria-label="15 of 21: The other 500: what they keep and what they don&#x27;t">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · Impact</p><h2>The other 500: what they keep and what they don't</h2><p class="lede">Per-user view, assuming Suite policies are scoped to the 500 licensed users.</p></header>
+<div class="bd cols" style="--c:1fr 262px">
+  <div><div class="tw"><table class="t"><caption class="sr">What licensed and unlicensed employees get when Suite policies are scoped to licensed users</caption><colgroup><col style="width:36%"><col style="width:32%"><col style="width:32%"></colgroup><thead><tr><th scope="col">Capability</th><th scope="col">500 with the Suite</th><th scope="col">500 on E3 only</th></tr></thead><tbody><tr style="--r:0"><th scope="row" class="rh">Sensitivity labels</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Manual and automatic</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Manual only</td></tr><tr style="--r:1"><th scope="row" class="rh">DLP for their email and files</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Yes</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Yes</td></tr><tr style="--r:2"><th scope="row" class="rh">DLP for their Teams chats</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Yes</td><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Outside policy scope</td></tr><tr style="--r:3"><th scope="row" class="rh">Endpoint DLP on their devices</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Yes</td><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Outside policy scope</td></tr><tr style="--r:4"><th scope="row" class="rh">Insider risk and communication policies</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>In scope</td><td><span class="n" aria-hidden="true">✕</span><span class="sr">Not included: </span>Outside policy scope</td></tr><tr style="--r:5"><th scope="row" class="rh">Audit retention of their activity</th><td>1 year by default</td><td>180 days</td></tr><tr style="--r:6"><th scope="row" class="rh">eDiscovery on their data</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Standard and Premium</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Standard only</td></tr><tr style="--r:7"><th scope="row" class="rh">Copilot, if licensed</th><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Prompt DLP and processing block</td><td><span class="y" aria-hidden="true">✓</span><span class="sr">Included: </span>Prompt DLP only</td></tr></tbody></table></div>
+  <p class="cap">Assumes every employee holds Microsoft 365 E3; staff with no base license get neither column.</p></div>
+  <div class="side fg" data-f="1"><p class="eyebrow">In short</p><div class="items"><div class="it st" style="--i:0"><h4>Nothing is taken away</h4><p>The other 500 keep every E3 capability</p></div><div class="it st" style="--i:1"><h4>Suite policies stop at them</h4><p>Scoping excludes them, which leaves blind spots</p></div><div class="it st" style="--i:2"><h4>Shared spaces</h4><p>A covered team or site needs all owners and members licensed</p></div></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/audit-solutions-overview" target="_blank" rel="noopener">[4] Auditing solutions overview</a></div><div class="pn">15 / 21</div></footer></section>
+<section class="slide" id="s16" data-title="Enforcement varies; the licensing rule doesn&#x27;t" role="group" aria-roledescription="slide" aria-label="16 of 21: Enforcement varies; the licensing rule doesn&#x27;t">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · Compliance</p><h2>Enforcement varies; the licensing rule doesn't</h2></header>
+<div class="bd">
+  <blockquote class="quote wide a" style="--d:1"><p>“You must appropriately license the use of a service regardless of technical enforcement.”</p><cite>Microsoft licensing guidance for Purview<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></cite></blockquote>
+  <div class="cols" style="--c:1fr 1fr;margin-top:16px">
+    <div class="card fg" data-f="1"><h3 class="st" style="--i:0">The service enforces some limits</h3><div class="items"><div class="it st" style="--i:0"><h4>Audit (Premium)</h4><p>One-year retention and crucial events apply only to licensed users.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div><div class="it st" style="--i:1"><h4>Customer Key</h4><p>For multiple workloads, needs at least as many licenses as users with Exchange or Teams licenses, or encryption reverts to default. 500 of 1,000 isn't enough.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div><div class="it st" style="--i:2"><h4>License checks</h4><p>Some services check for a license, or let admins limit access to licensed users.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div><div class="it st" style="--i:3"><h4>Future checks</h4><p>Services that don't enforce today could start in future.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div></div></div>
+    <div class="card tint fg" data-f="2"><h3 class="st" style="--i:0">You must scope the rest</h3><div class="items"><div class="it st" style="--i:0"><h4>Can't always be limited</h4><p>Some tenant services can't yet limit benefits to specific users; licenses are still required.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div><div class="it st" style="--i:1"><h4>Defaults are tenant-wide</h4><p>For example, Teams chats and channels are a DLP location for all users until you include or exclude users or groups.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div><div class="it st" style="--i:2"><h4>No multiplexing</h4><p>Pooling or rerouting access doesn't reduce the licenses you need.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div><div class="it st" style="--i:3"><h4>No license rotation</h4><p>A license can't be reassigned within 90 days of its last assignment, except to cover a user's absence.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div></div></div>
+  </div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">16 / 21</div></footer></section>
+<section class="slide" id="s17" data-title="Running a 500/500 split" role="group" aria-roledescription="slide" aria-label="17 of 21: Running a 500/500 split">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · How to run it</p><h2>Running a 500/500 split</h2><p class="lede">Recommended practice, not a Microsoft requirement, that keeps a partial rollout inside the licensing rules.</p></header>
+<div class="bd">
+  <div class="steps"><div class="step a" style="--d:1"><span class="dot">1</span><h4>Pick by data risk</h4><p>Sensitive-data roles, privileged admins, investigators</p></div><div class="step a" style="--d:2"><span class="dot">2</span><h4>Group and license</h4><p>One security group; group-based licensing assigns the Suite</p></div><div class="step a" style="--d:3"><span class="dot">3</span><h4>Scope Suite policies</h4><p>Include only that group; DLP and Insider Risk policies support user and group scoping<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>,<a class="cite" href="#src-9" title="Source 9: Get started with Insider Risk Management" aria-label="Source 9: Get started with Insider Risk Management">9</a>]</sup></p></div><div class="step a" style="--d:4"><span class="dot">4</span><h4>Fix shared spaces</h4><p>License all owners and members of covered sites and teams<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div><div class="step a" style="--d:5"><span class="dot">5</span><h4>Review regularly</h4><p>Joiners, leavers, new sites; reassignment has a 90-day rule<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></div></div>
+  <div class="band f" data-f="1"><p class="eyebrow">Known gap</p><p class="txt">Content created by the other 500 isn't auto-labeled, and their activity isn't covered by insider-risk policies. That is the honest cost of a partial rollout.</p></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/purview/insider-risk-management-configure" target="_blank" rel="noopener">[9] Get started with Insider Risk Management</a></div><div class="pn">17 / 21</div></footer></section>
+<section class="slide" id="s18" data-title="Three options for the other 500" role="group" aria-roledescription="slide" aria-label="18 of 21: Three options for the other 500">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · Options</p><h2>Three options for the other 500</h2><p class="lede">Suite coverage of the 1,000 employees, with list-price cost per year.</p></header>
+<div class="bd cols" style="--c:1fr 300px;gap:28px">
+  <div>
+    <figure class="chart opt" role="img" aria-label="Bar chart, 0 to 1,000 employees. Option A: all 1,000 with the Suite, US$144,000 per year. Option B: 500 with the Suite and 500 on E3 only, US$72,000 per year. Option C: subset add-ons, cost depends on the mix.">
+      <div class="gl"><i style="--x:0%"></i><i style="--x:25%"></i><i style="--x:50%"></i><i style="--x:75%"></i><i style="--x:100%"></i></div>
+      <div class="row"><div class="rl"><b>A · All 1,000</b><span>Suite for everyone</span></div><div class="plot"><div class="bar blue" style="--w:100%;--d:0">1,000 Suite</div><span class="val" style="--w:100%;--d:0"><span class="count" data-to="144000" data-pre="US$" data-suf=" / yr" data-delay="1100">US$144,000 / yr</span></span></div><div></div></div>
+      <div class="row"><div class="rl"><b>B · 500 by risk</b><span>Suite for key roles</span></div><div class="plot"><div class="bar blue flat" style="--w:50%;--d:1">500 Suite</div><div class="bar neut" style="--l:50%;--w:50%;--d:2">500 E3 only</div><span class="val" style="--w:100%;--d:2"><span class="count" data-to="72000" data-pre="US$" data-suf=" / yr" data-delay="1500">US$72,000 / yr</span></span></div><div></div></div>
+      <div class="row"><div class="rl"><b>C · Add-on subsets</b><span>Parts of the Suite</span></div><div class="plot"><span class="val muted" style="--d:3">No single bar: cost depends on the add-on mix</span></div><div></div></div>
+      <div class="ax"><span style="--x:0%">0</span><span style="--x:25%">250</span><span style="--x:50%">500</span><span style="--x:75%">750</span><span style="--x:100%">1,000</span></div>
+    </figure>
+    <p class="note a" style="--d:5;margin-top:18px">List-price arithmetic: USD 12.00 × 12 months × licensed users.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup> Excludes tax, discounts and pay-as-you-go usage. Illustrative, not a quote.</p>
+  </div>
+  <div class="side fg" data-f="1"><p class="eyebrow">When each option fits</p><span class="tag">Considerations, not Microsoft guidance</span><div class="items"><div class="it st" style="--i:0"><h4>A fits when</h4><p>Sensitive data is everywhere, or Copilot goes to everyone. Simplest to run; highest cost.</p></div><div class="it st" style="--i:1"><h4>B fits when</h4><p>Sensitive data sits with known teams. Half the cost; needs strict scoping and leaves gaps.</p></div><div class="it st" style="--i:2"><h4>C fits when</h4><p>One need dominates, such as eDiscovery and Audit for legal. Narrowest coverage.</p></div></div></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/en-us/security/microsoft-purview-suite" target="_blank" rel="noopener">[1] Purview Suite product page and FAQ</a><span class="sep">·</span><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a></div><div class="pn">18 / 21</div></footer></section>
+<section class="slide" id="s19" data-title="Option C: the E5 subset add-ons" role="group" aria-roledescription="slide" aria-label="19 of 21: Option C: the E5 subset add-ons">
+<header class="hd a" style="--d:0"><p class="eyebrow">Question 03 · Option C</p><h2>Option C: the E5 subset add-ons</h2><p class="lede">Each adds part of the Suite on top of a base license such as Microsoft 365 E3, licensed per user.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></p></header>
+<div class="bd">
+  <div class="cols" style="--c:1fr 262px">
+    <div class="tw"><table class="t"><caption class="sr">Microsoft 365 E5 subset add-ons and what each covers</caption><colgroup><col style="width:38%"><col style="width:62%"></colgroup><thead><tr><th scope="col">Add-on (per user)</th><th scope="col">What it covers</th></tr></thead><tbody><tr style="--r:0"><th scope="row" class="rh">Microsoft 365 E5 Information Protection and Governance</th><td>Information Protection, DLP for Teams chats, Endpoint DLP, Data Lifecycle and Records Management, Advanced Message Encryption, Defender for Cloud Apps, Customer Key</td></tr><tr style="--r:1"><th scope="row" class="rh">Microsoft 365 E5 Insider Risk Management</th><td>Insider Risk Management, Communication Compliance, Information Barriers, Customer Lockbox, Privileged Access Management, Data Connectors</td></tr><tr style="--r:2"><th scope="row" class="rh">Microsoft 365 E5 eDiscovery and Audit</th><td>eDiscovery (Premium) and Audit (Premium)</td></tr><tr style="--r:3"><th scope="row" class="rh">Microsoft Purview Suite</th><td>All of the above</td></tr></tbody></table></div>
+    <div class="side fg" data-f="1"><p class="eyebrow">How to use them</p><div class="items"><div class="it st" style="--i:0"><h4>Licensed per user</h4><p>Each user a subset feature touches needs that add-on</p></div><div class="it st" style="--i:1"><h4>Prerequisite applies</h4><p>Add-ons need a base license such as Microsoft 365 E3</p></div><div class="it st" style="--i:2"><h4>Check overlap</h4><p>If users need two or more subsets, compare with the full Suite</p></div></div></div>
+  </div>
+  <div class="band a" style="--d:6;background:var(--grey)"><p class="eyebrow">Other workforces</p><p class="txt">Frontline workers (Microsoft 365 F1/F3) can add the Purview Suite or F5 subsets. Business Premium (up to 300 users) has Purview Suite for Business Premium.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>,<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></p></div>
+</div>
+<footer class="sf"><div class="sl"><span class="lb">Sources</span> <a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">[2] Microsoft licensing guidance for Purview</a><span class="sep">·</span><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">[3] Purview service description</a></div><div class="pn">19 / 21</div></footer></section>
+<section class="slide sec" id="s20" data-title="Key takeaways" role="group" aria-roledescription="slide" aria-label="20 of 21: Key takeaways">
+<div class="l">
+  <p class="eyebrow a" style="--d:0">Key takeaways</p>
+  <h2 class="q a" style="--d:1">Four things to remember</h2>
+  <ol class="tk"><li class="a" style="--d:2"><span class="tn">1</span><span>No Suite doesn't mean no protection: Microsoft 365 E3 already includes core Purview.<sup class="cites">[<a class="cite" href="#src-2" title="Source 2: Microsoft Purview licensing guidance" aria-label="Source 2: Microsoft Purview licensing guidance">2</a>]</sup></span></li><li class="a" style="--d:3"><span class="tn">2</span><span>The Suite adds automation, reach and depth, licensed per user.<sup class="cites">[<a class="cite" href="#src-1" title="Source 1: Microsoft Purview Suite: product page and FAQ" aria-label="Source 1: Microsoft Purview Suite: product page and FAQ">1</a>]</sup></span></li><li class="a" style="--d:4"><span class="tn">3</span><span>Every user a Suite feature touches needs a license; scope policies to match.<sup class="cites">[<a class="cite" href="#src-3" title="Source 3: Microsoft Purview service description" aria-label="Source 3: Microsoft Purview service description">3</a>]</sup></span></li><li class="a" style="--d:5"><span class="tn">4</span><span>Partial licensing works, with known gaps. Decide by data risk, not headcount.</span></li></ol>
+  <p class="nx a" style="--d:7"><b>Next step:</b> map where sensitive data lives and who handles it, then size the license count.</p>
+  <div class="grow"></div>
+  <footer class="sf"><div class="sl">Based on the Microsoft sources listed on the next slide</div><div class="pn">20 / 21</div></footer>
+</div>
+<div class="panel" aria-hidden="true"><p class="msg"><span>In one line</span>Decide by data risk, not headcount.</p></div></section>
+<section class="slide" id="s21" data-title="Sources, assumptions and disclaimer" role="group" aria-roledescription="slide" aria-label="21 of 21: Sources, assumptions and disclaimer">
+<header class="hd a" style="--d:0"><p class="eyebrow">Appendix</p><h2>Sources, assumptions and disclaimer</h2></header>
+<button type="button" class="btn backbtn" id="back" hidden>← Back to slide <span></span></button>
+<div class="bd">
+  <ol class="srcgrid" id="sources"><li class="src" id="src-1"><span class="no">1</span><div><a href="https://www.microsoft.com/en-us/security/microsoft-purview-suite" target="_blank" rel="noopener">Microsoft Purview Suite: product page and FAQ</a><p class="m">microsoft.com · Used for: What the Suite is, its prerequisite, US list price, per-user licensing</p></div></li><li class="src" id="src-2"><span class="no">2</span><div><a href="https://www.microsoft.com/licensing/guidance/Microsoft-Purview" target="_blank" rel="noopener">Microsoft Purview licensing guidance</a><p class="m">Microsoft Licensing · Used for: E3 vs. Suite capabilities, subset add-ons, enforcement, multiplexing and reassignment rules</p></div></li><li class="src" id="src-3"><span class="no">3</span><div><a href="https://learn.microsoft.com/en-us/office365/servicedescriptions/microsoft-365-service-descriptions/microsoft-365-tenantlevel-services-licensing-guidance/microsoft-purview-service-description" target="_blank" rel="noopener">Microsoft Purview service description</a><p class="m">Microsoft Learn · Used for: Feature-level licensing, which users need a license, Copilot capabilities, Customer Key rules</p></div></li><li class="src" id="src-4"><span class="no">4</span><div><a href="https://learn.microsoft.com/en-us/purview/audit-solutions-overview" target="_blank" rel="noopener">Learn about auditing solutions in Microsoft Purview</a><p class="m">Microsoft Learn · Used for: Audit (Standard) and Audit (Premium) default retention</p></div></li><li class="src" id="src-5"><span class="no">5</span><div><a href="https://learn.microsoft.com/en-us/purview/audit-log-retention-policies" target="_blank" rel="noopener">Manage audit log retention policies</a><p class="m">Microsoft Learn · Used for: Custom retention policies, the 10-year add-on, changes not applied retroactively</p></div></li><li class="src" id="src-6"><span class="no">6</span><div><a href="https://learn.microsoft.com/en-us/purview/purview-billing-models" target="_blank" rel="noopener">Learn about Microsoft Purview billing models</a><p class="m">Microsoft Learn · Used for: Pay-as-you-go capabilities, meters and the Azure subscription requirement</p></div></li><li class="src" id="src-7"><span class="no">7</span><div><a href="https://learn.microsoft.com/en-us/purview/ome-faq" target="_blank" rel="noopener">Message encryption FAQ</a><p class="m">Microsoft Learn · Used for: Basic Message Encryption vs. Advanced Message Encryption</p></div></li><li class="src" id="src-8"><span class="no">8</span><div><a href="https://learn.microsoft.com/en-us/purview/edisc-get-started" target="_blank" rel="noopener">Get started with eDiscovery</a><p class="m">Microsoft Learn · Used for: eDiscovery (Standard) and eDiscovery (Premium) capabilities</p></div></li><li class="src" id="src-9"><span class="no">9</span><div><a href="https://learn.microsoft.com/en-us/purview/insider-risk-management-configure" target="_blank" rel="noopener">Get started with Insider Risk Management</a><p class="m">Microsoft Learn · Used for: Insider Risk Management licensing, pay-as-you-go indicators and policy scoping</p></div></li></ol>
+  <div class="disc">
+    <div class="card"><p class="eyebrow">Assumptions</p><p class="txt">Enterprise commercial cloud; government, education and sovereign clouds may differ. Baseline: Microsoft 365 E3. Prices: US list prices on microsoft.com, read 5 November 2026; regional and agreement prices differ.</p></div>
+    <div class="card tint"><p class="eyebrow">Disclaimer</p><p class="txt">This explainer summarises public Microsoft documentation. It is not a licensing agreement or an official licensing statement: the Microsoft Product Terms and your agreement govern. Licensing changes often, so confirm with your Microsoft account team or partner.</p></div>
+  </div>
+</div>
+<footer class="sf"><div class="sl">All sources accessed 5 November 2026. Microsoft, Microsoft 365, Microsoft Purview and Copilot are trademarks of the Microsoft group of companies.</div><div class="pn">21 / 21</div></footer></section>
+</div>
+</main>
+<nav class="toolbar" id="toolbar" aria-label="Presentation controls">
+  <div class="tb-l"><b>Microsoft Purview Suite · licensing explained</b><span>Last verified 5 November 2026 · Not an official licensing statement</span></div>
+  <div class="tb-c">
+    <button type="button" class="nav" id="prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span id="count">1 / 21</span>
+    <button type="button" class="nav" id="next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="tb-r">
+    <a class="btn" href="../">Article view</a>
+    <button type="button" class="btn" id="btn-toc" aria-haspopup="dialog">Contents</button>
+    <button type="button" class="btn" id="btn-src">Sources</button>
+    <button type="button" class="btn" id="btn-doc">Scroll view</button>
+    <button type="button" class="btn" id="btn-fs">Full screen</button>
+    <button type="button" class="btn" id="btn-print">Print / PDF</button>
+  </div>
+</nav>
+<div class="toc" id="toc" hidden><div class="toc-in" role="dialog" aria-modal="true" aria-labelledby="toc-h"><div class="toc-hd"><h2 id="toc-h">Contents</h2><button type="button" class="btn" id="toc-x">Close</button></div><ol id="toc-list"></ol></div></div>
+<p id="live" class="sr" aria-live="polite"></p>
+<script>
+(function(){
+'use strict';
+var d=document, root=d.documentElement;
+var stage=d.getElementById('stage'), vp=d.getElementById('viewport');
+var slides=Array.prototype.slice.call(d.querySelectorAll('.slide'));
+var N=slides.length, cur=-1, backTo=null, userPref=null, wasDoc=false;
+var reduce=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+var maxStep=slides.map(function(s){var m=0;Array.prototype.forEach.call(s.querySelectorAll('[data-f],[data-fout]'),function(el){var v=+(el.getAttribute('data-f')||el.getAttribute('data-fout'));if(v>m)m=v;});return m;});
+var step=slides.map(function(){return 0;});
+var srcEl=d.getElementById('sources'), srcSlide=slides.indexOf(srcEl?srcEl.closest('.slide'):null);
+var countEl=d.getElementById('count'), bar=d.getElementById('bar'), live=d.getElementById('live');
+var prevBtn=d.getElementById('prev'), nextBtn=d.getElementById('next'), backBtn=d.getElementById('back');
+var docBtn=d.getElementById('btn-doc'), fsBtn=d.getElementById('btn-fs'), tocBtn=d.getElementById('btn-toc'), srcBtn=d.getElementById('btn-src'), printBtn=d.getElementById('btn-print');
+var toc=d.getElementById('toc'), tocList=d.getElementById('toc-list'), tocClose=d.getElementById('toc-x'), lastFocus=null;
+var mq=window.matchMedia?window.matchMedia('(max-width: 760px), (max-height: 470px)'):null;
+var q=location.search, forced=/[?&]view=doc\b/.test(q)?true:(/[?&]view=slides\b/.test(q)?false:null);
+function each(list,fn){Array.prototype.forEach.call(list,fn);}
+function isDoc(){return root.classList.contains('doc');}
+
+/* number roll-up for KPIs */
+function fmt(el,v){return (el.getAttribute('data-pre')||'')+Math.round(v).toLocaleString('en-US')+(el.getAttribute('data-suf')||'');}
+function countUp(el){
+  var to=+el.getAttribute('data-to'), delay=+(el.getAttribute('data-delay')||0);
+  if(reduce||isDoc()){el.textContent=fmt(el,to);return;}
+  el.textContent=fmt(el,0);
+  setTimeout(function(){var t0=null,dur=1000;function tick(t){if(t0===null)t0=t;var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=fmt(el,to*e);if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);},delay);
+}
+function runCounts(scope){each(scope.querySelectorAll('.count'),function(el){var f=el.closest('[data-f]');if(!f||f.classList.contains('on'))countUp(el);});}
+
+/* build steps inside a slide */
+function setStep(i,k,fresh){
+  var s=slides[i]; step[i]=k;
+  each(s.querySelectorAll('[data-f]'),function(el){var on=+el.getAttribute('data-f')<=k, was=el.classList.contains('on');el.classList.toggle('on',on);if(fresh&&on&&!was)runCounts(el);});
+  each(s.querySelectorAll('[data-fout]'),function(el){el.classList.toggle('off',k>=+el.getAttribute('data-fout'));});
+  for(var n=1;n<=maxStep[i];n++)s.classList.toggle('s'+n,n<=k);
+  if(i===cur)chrome();
+}
+function go(i,k){
+  if(isDoc())return;
+  i=Math.max(0,Math.min(N-1,i));
+  var changed=i!==cur; cur=i;
+  if(i!==srcSlide)backTo=null;
+  slides.forEach(function(s,j){var a=j===i;s.classList.toggle('active',a);s.classList.toggle('past',j<i);s.classList.toggle('future',j>i);s.setAttribute('aria-hidden',a?'false':'true');if(a)s.removeAttribute('inert');else s.setAttribute('inert','');});
+  setStep(i,k==null?0:k,false);
+  if(changed){runCounts(slides[i]);live.textContent='Slide '+(i+1)+' of '+N+': '+slides[i].getAttribute('data-title');}
+  chrome();
+  try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+}
+function chrome(){
+  if(cur<0)return;
+  countEl.textContent=(cur+1)+' / '+N;
+  bar.style.width=((cur+1)/N*100)+'%';
+  var more=step[cur]<maxStep[cur];
+  prevBtn.disabled=(cur===0&&step[cur]===0);
+  nextBtn.disabled=(cur===N-1&&!more);
+  nextBtn.classList.toggle('more',more);
+  nextBtn.setAttribute('aria-label',more?'Next build step':'Next slide');
+  if(backBtn){backBtn.hidden=!(cur===srcSlide&&backTo!==null);if(backTo!==null)backBtn.querySelector('span').textContent=String(backTo+1);}
+  each(tocList.querySelectorAll('button'),function(b,j){b.setAttribute('aria-current',j===cur?'true':'false');});
+}
+function next(){if(step[cur]<maxStep[cur])setStep(cur,step[cur]+1,true);else if(cur<N-1)go(cur+1,0);}
+function prev(){if(step[cur]>0)setStep(cur,step[cur]-1,false);else if(cur>0)go(cur-1,maxStep[cur-1]);}
+function flash(el){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');}
+function gotoSource(n){
+  var el=d.getElementById('src-'+n);
+  if(isDoc()){if(el){el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'});flash(el);}return;}
+  if(cur!==srcSlide)backTo=cur;
+  go(srcSlide,0);
+  if(el)flash(el);
+}
+
+/* fit the 1280x720 stage into the window */
+function fit(){
+  if(isDoc()){stage.style.removeProperty('--s');return;}
+  var r=vp.getBoundingClientRect();
+  var s=Math.min((r.width-28)/1280,(r.height-24)/720);
+  stage.style.setProperty('--s',Math.max(0.2,s).toFixed(4));
+}
+function showAll(){
+  slides.forEach(function(s,i){s.classList.add('active');s.classList.remove('past','future');s.removeAttribute('inert');s.setAttribute('aria-hidden','false');
+    each(s.querySelectorAll('[data-f]'),function(el){el.classList.add('on');});
+    each(s.querySelectorAll('[data-fout]'),function(el){el.classList.add('off');});
+    for(var n=1;n<=maxStep[i];n++)s.classList.add('s'+n);});
+}
+function setDoc(on){
+  root.classList.toggle('doc',on);
+  docBtn.textContent=on?'Slide view':'Scroll view';
+  if(on){showAll();stage.style.removeProperty('--s');each(d.querySelectorAll('.count'),function(el){el.textContent=fmt(el,+el.getAttribute('data-to'));});}
+  else{var c=cur<0?0:cur;cur=-1;go(c,step[c]);fit();}
+}
+
+/* contents */
+slides.forEach(function(s,i){var li=d.createElement('li'),b=d.createElement('button'),n=d.createElement('span'),t=d.createElement('span');b.type='button';b.setAttribute('data-goto',s.id);n.className='n';n.textContent=String(i+1);t.textContent=s.getAttribute('data-title');b.appendChild(n);b.appendChild(t);li.appendChild(b);tocList.appendChild(li);});
+function openToc(){lastFocus=d.activeElement;toc.hidden=false;var bs=tocList.querySelectorAll('button');var c=bs[Math.max(cur,0)];if(c)c.focus();}
+function closeToc(){if(toc.hidden)return;toc.hidden=true;if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+
+/* events */
+prevBtn.addEventListener('click',prev);
+nextBtn.addEventListener('click',next);
+if(backBtn)backBtn.addEventListener('click',function(){if(backTo!==null){var b=backTo;go(b,step[b]);}});
+tocBtn.addEventListener('click',openToc);
+tocClose.addEventListener('click',closeToc);
+toc.addEventListener('click',function(e){if(e.target===toc)closeToc();});
+srcBtn.addEventListener('click',function(){if(isDoc()){slides[srcSlide].scrollIntoView({behavior:reduce?'auto':'smooth'});}else{if(cur!==srcSlide)backTo=cur;go(srcSlide,0);}});
+docBtn.addEventListener('click',function(){userPref=!isDoc();setDoc(userPref);if(userPref&&cur>0)slides[cur].scrollIntoView();});
+printBtn.addEventListener('click',function(){window.print();});
+if(!(root.requestFullscreen||root.webkitRequestFullscreen))fsBtn.hidden=true;
+fsBtn.addEventListener('click',function(){if(!(d.fullscreenElement||d.webkitFullscreenElement)){(root.requestFullscreen||root.webkitRequestFullscreen).call(root);}else{(d.exitFullscreen||d.webkitExitFullscreen).call(d);}});
+d.addEventListener('fullscreenchange',function(){fsBtn.textContent=d.fullscreenElement?'Exit full screen':'Full screen';fit();});
+vp.addEventListener('click',function(e){
+  if(isDoc())return;
+  if(e.target.closest('a,button,input,select,textarea,summary,label'))return;
+  var sel=window.getSelection?String(window.getSelection()):'';
+  if(sel)return;
+  next();
+});
+d.addEventListener('click',function(e){
+  var c=e.target.closest('a.cite');
+  if(c){e.preventDefault();gotoSource(c.getAttribute('href').replace('#src-',''));return;}
+  var g=e.target.closest('[data-goto]');
+  if(g){e.preventDefault();var t=d.getElementById(g.getAttribute('data-goto'));closeToc();if(!t)return;if(isDoc())t.scrollIntoView({behavior:reduce?'auto':'smooth'});else go(slides.indexOf(t),0);}
+});
+d.addEventListener('keydown',function(e){
+  if(!toc.hidden){if(e.key==='Escape'){e.preventDefault();closeToc();}return;}
+  if(isDoc()||e.altKey||e.ctrlKey||e.metaKey)return;
+  var k=e.key, onCtl=e.target.closest&&e.target.closest('a,button,input,select,textarea');
+  if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||(k===' '&&!e.shiftKey&&!onCtl)||(k==='Enter'&&!onCtl)){e.preventDefault();next();}
+  else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'||(k===' '&&e.shiftKey&&!onCtl)||(k==='Backspace'&&!onCtl)){e.preventDefault();prev();}
+  else if(k==='Home'){e.preventDefault();go(0,0);}
+  else if(k==='End'){e.preventDefault();go(N-1,maxStep[N-1]);}
+  else if(k==='c'||k==='C'){e.preventDefault();openToc();}
+});
+var tx=null,ty=null;
+vp.addEventListener('touchstart',function(e){if(e.touches.length===1){tx=e.touches[0].clientX;ty=e.touches[0].clientY;}},{passive:true});
+vp.addEventListener('touchend',function(e){if(tx===null||isDoc())return;var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.3){if(dx<0)next();else prev();}},{passive:true});
+window.addEventListener('resize',fit);
+window.addEventListener('hashchange',function(){
+  var h=location.hash.slice(1),m;
+  if((m=/^src-(\d+)$/.exec(h))){gotoSource(+m[1]);return;}
+  if(isDoc())return;
+  if((m=/^(\d+)$/.exec(h))){var i=+m[1]-1;if(i!==cur)go(i,0);}
+});
+window.addEventListener('beforeprint',function(){wasDoc=isDoc();root.classList.remove('doc');showAll();});
+window.addEventListener('afterprint',function(){if(wasDoc){setDoc(true);}else{var c=cur<0?0:cur;cur=-1;go(c,step[c]);fit();}});
+if(mq){var onMq=function(){if(forced===null&&userPref===null)setDoc(mq.matches);};if(mq.addEventListener)mq.addEventListener('change',onMq);else if(mq.addListener)mq.addListener(onMq);}
+
+/* start */
+(function(){
+  var h=location.hash.slice(1),m,i=0;
+  if((m=/^(\d+)$/.exec(h)))i=Math.max(0,Math.min(N-1,+m[1]-1));
+  var doc=forced!==null?forced:!!(mq&&mq.matches);
+  if(doc){cur=i;setDoc(true);if(i>0)slides[i].scrollIntoView();}
+  else{go(i,0);fit();}
+  if((m=/^src-(\d+)$/.exec(h)))gotoSource(+m[1]);
+  root.classList.add('ready');
+})();
+})();
+
+</script>
+</body>
+</html>
